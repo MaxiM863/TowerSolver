@@ -24,6 +24,6 @@ set(SDL3_VERSION "release-3.2.22") # Or any other desired version/tag
     FetchContent_MakeAvailable(SDL3)
 
 
-add_executable(Max main.cpp)
+add_executable(Max main.cpp Graphics.hpp)
 
 target_link_libraries(Max PRIVATE Eigen3::Eigen SDL3::SDL3)
