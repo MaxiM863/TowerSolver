@@ -28,6 +28,9 @@ add_executable(Max main.cpp Graphics.hpp Node.hpp Element.hpp)
 
 target_link_libraries(Max PRIVATE Eigen3::Eigen SDL3::SDL3)
 
+target_include_directories(Max PRIVATE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/_deps/sdl3-src/include)
+
+
 if (WIN32)
     # Set the executable output directory
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
