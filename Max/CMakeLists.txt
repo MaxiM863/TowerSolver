@@ -24,7 +24,7 @@ set(SDL3_VERSION "release-3.2.22") # Or any other desired version/tag
     FetchContent_MakeAvailable(SDL3)
 
 
-add_executable(Max main.cpp Graphics.hpp)
+add_executable(Max main.cpp Graphics.hpp Node.hpp Element.hpp)
 
 target_link_libraries(Max PRIVATE Eigen3::Eigen SDL3::SDL3)
 
@@ -43,7 +43,7 @@ if (WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 ${FILE_TO_COPY} ${DESTINATION_DIR}
         COMMENT "Copying example.dll to the executable directory"
-)
+    )
 endif (WIN32)
 
 if (UNIX)
