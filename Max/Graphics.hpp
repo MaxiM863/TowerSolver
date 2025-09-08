@@ -1,3 +1,6 @@
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
+
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
@@ -110,3 +113,5 @@ public:
     return 0;
     }
 };
+
+#endif

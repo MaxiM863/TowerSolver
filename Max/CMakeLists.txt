@@ -24,12 +24,15 @@ set(SDL3_VERSION "release-3.2.22") # Or any other desired version/tag
     FetchContent_MakeAvailable(SDL3)
 
 
-add_executable(Max main.cpp Graphics.hpp Node.hpp Element.hpp)
+add_executable(Max main.cpp Graphics.hpp Node.hpp Element.hpp Constraint.hpp Force.hpp Material.hpp Section.hpp Solver.hpp Tests.hpp)
 
 target_link_libraries(Max PRIVATE Eigen3::Eigen SDL3::SDL3)
 
 target_include_directories(Max PRIVATE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/_deps/sdl3-src/include)
 
+set_target_properties(Max PROPERTIES
+    VS_DEBUGGER_COMMAND_ARGUMENTS "maxim.txt"
+)
 
 if (WIN32)
     # Set the executable output directory
