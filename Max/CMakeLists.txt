@@ -1,38 +1,50 @@
-cmake_minimum_required(VERSION 3.10) # Specify a minimum required CMake version
+cmake_minimum_required(VERSION 3.2.2) # Specify a minimum required CMake version
 project(Max)                  # Define the project name
+
+
 
 include(FetchContent)
 
-FetchContent_Declare(
-    Eigen3
-    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-    GIT_TAG master # Or a specific commit hash
-)
 
-FetchContent_MakeAvailable(Eigen3)
 
 set(SDL3_VERSION "release-3.2.22") # Or any other desired version/tag
 
-    # Declare the content to be fetched
-    FetchContent_Declare(
-        SDL3
-        URL https://github.com/libsdl-org/SDL/archive/refs/tags/${SDL3_VERSION}.tar.gz # For Unix/Linux
-        # Or for Windows: URL https://github.com/libsdl-org/SDL/archive/refs/tags/${SDL3_VERSION}.zip
-    )
-
-    # Make the fetched content available
-    FetchContent_MakeAvailable(SDL3)
-
-
-add_executable(Max main.cpp Graphics.hpp Node.hpp Element.hpp Constraint.hpp Force.hpp Material.hpp Section.hpp Solver.hpp Tests.hpp)
-
-target_link_libraries(Max PRIVATE Eigen3::Eigen SDL3::SDL3)
-
-target_include_directories(Max PRIVATE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/_deps/sdl3-src/include)
-
-set_target_properties(Max PROPERTIES
-    VS_DEBUGGER_COMMAND_ARGUMENTS "maxim.txt"
+# Declare the content to be fetched
+FetchContent_Declare(
+    SDL3
+    URL https://github.com/libsdl-org/SDL/archive/refs/tags/${SDL3_VERSION}.tar.gz # For Unix/Linux
+    # Or for Windows: URL https://github.com/libsdl-org/SDL/archive/refs/tags/${SDL3_VERSION}.zip
 )
+
+# Make the fetched content available
+FetchContent_MakeAvailable(SDL3)
+
+
+include(FetchContent)
+FetchContent_Declare (
+    glfw
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+    GIT_TAG 3.4
+)
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL  "")
+set(GLFW_INSTALL OFF CACHE BOOL  "")
+
+FetchContent_MakeAvailable(glfw)
+
+FetchContent_Declare(eigen GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git GIT_TAG 3.4.0)
+#FetchContent_Populate(eigen)
+FetchContent_MakeAvailable(eigen)
+#set(CMAKE_PREFIX_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/../eigen/build")
+#find_package(Eigen3 3.4.90 EXACT REQUIRED)
+
+add_executable(Max main.cpp Graphics.hpp Node.hpp Element.hpp Constraint.hpp Force.hpp Material.hpp Section.hpp Solver.hpp Tests.hpp Cylinder.hpp)
+
+target_link_libraries(Max PUBLIC Eigen3::Eigen SDL3::SDL3 glfw opengl32)
+
+
+target_include_directories(Max PUBLIC ${PROJECT_SOURCE_DIR}/../../eigen/ ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/_deps/sdl3-src/include ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/_deps/glfw-src/include)
+
 
 if (WIN32)
     # Set the executable output directory

@@ -1,7 +1,7 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 
 #include <stdlib.h>
 #include <iostream>

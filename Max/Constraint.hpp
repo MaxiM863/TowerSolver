@@ -20,11 +20,11 @@ public:
 
         std::string dofList = "";
 
-        for(int i = 0; i < m_isConstraint.size(); i++)
+        for(int i = 0; i < (int)m_isConstraint.size(); i++)
         {
 
             dofList += std::to_string(m_isConstraint[i]);
-            if(i < m_isConstraint.size() - 1) dofList += ", ";
+            if(i < (int)m_isConstraint.size() - 1) dofList += ", ";
         }
 
         return "Constraint at node: " + std::to_string(m_nodeID) + "DOF list: " + dofList;

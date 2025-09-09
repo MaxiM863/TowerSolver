@@ -1,6 +1,5 @@
 #include "Graphics.hpp"
 #include "Eigen/Dense"
-
 #include "Solver.hpp"
 #include "Tests.hpp"
 
@@ -29,6 +28,9 @@ int main(int argv, char** args)
 
     std::cout << "Bonjour!" << std::endl << "Program of Truss entity computation:" << std::endl << std::endl;
 
+    /*
+    if(argv == 1) return 2;
+
     std::ifstream file(args[1]); // Open the file
     if (!file) {
         std::cerr << "Error: File could not be opened!" << std::endl;
@@ -38,7 +40,17 @@ int main(int argv, char** args)
     /////////////////////////////////////////////////////////////////
 
 
-    
+    std::vector<Max::Node> nodes;
+
+    Material m1(1, 0.3, 1000);
+
+    Section s1(0.5, &m1);
+
+    std::vector<Max::Element> Truss;
+
+    std::vector<Constraint> totalConstraint;
+
+    std::vector<Force> forces;
 
 
     std::string line;
@@ -62,15 +74,39 @@ int main(int argv, char** args)
         }
     }
 
+    ///////////////////////////////////////////////////////////////
 
+    Solver S;
 
+    Eigen::MatrixXd K = S.AssembleKMatrix(nodes, Truss);
 
+    S.consoleMatrix(K);
+
+    std::vector<int> freeDOFElements = S.FindDOF(nodes, totalConstraint);
+
+    Eigen::MatrixXd reducedMatrix = S.condenseMatrix(K, freeDOFElements);
+
+    S.consoleMatrix(reducedMatrix);
+
+    Eigen::MatrixXd forcesMatrix = S.BuildForcesMatrix(nodes, forces);
+
+    S.consoleMatrix(forcesMatrix);
+
+    Eigen::MatrixXd reducedVector = S.condenseVector(forcesMatrix, freeDOFElements);
+
+    S.consoleMatrix(reducedVector);
+
+    ////////////////////////////////////////////////////////////////
+    
+    Eigen::VectorXd x = reducedMatrix.colPivHouseholderQr().solve(reducedVector);
+
+    S.consoleMatrix(x);*/
 
 
     ////////////////////////////////////////////////////////////////
-    //Graphics G;
+    Graphics G;
 
-    //G.MaximRender();
+    G.MaximRender();
 
     return 0;
 }
